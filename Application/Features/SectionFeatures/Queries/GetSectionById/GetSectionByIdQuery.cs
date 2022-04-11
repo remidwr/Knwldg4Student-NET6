@@ -21,6 +21,11 @@
         {
             var section = await _sectionRepository.GetSectionByIdAsync(request.Id, cancellationToken);
 
+            if (section == null)
+            {
+                throw new NotFoundException(nameof(Section), request.Id);
+            }
+
             return _mapper.Map<SectionDetailedDto>(section);
         }
     }

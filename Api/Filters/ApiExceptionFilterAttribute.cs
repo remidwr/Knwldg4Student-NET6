@@ -1,17 +1,15 @@
-﻿using Application.Common.Exceptions;
-
-using Domain.Exceptions;
-
-using Microsoft.AspNetCore.Mvc.Filters;
-
-namespace Api.Filters
+﻿namespace Api.Filters
 {
     public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
+        private readonly IWebHostEnvironment _env;
+        private readonly ILogger<ApiExceptionFilterAttribute> _logger;
         private readonly IDictionary<Type, Action<ExceptionContext>> _exceptionHandlers;
 
-        public ApiExceptionFilterAttribute()
+        public ApiExceptionFilterAttribute(IWebHostEnvironment env, ILogger<ApiExceptionFilterAttribute> logger)
         {
+            _env = env;
+            _logger = logger;
             _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
             {
                 { typeof(ValidationException), HandleValidationException },
@@ -22,6 +20,10 @@ namespace Api.Filters
 
         public override void OnException(ExceptionContext context)
         {
+            _logger.LogError(new EventId(context.Exception.HResult),
+                context.Exception,
+                context.Exception.Message);
+
             HandleException(context);
             base.OnException(context);
         }
@@ -44,19 +46,33 @@ namespace Api.Filters
             HandleUnknownException(context);
         }
 
-        private static void HandleUnknownException(ExceptionContext context)
+        private void HandleUnknownException(ExceptionContext context)
         {
-            var details = new ProblemDetails
+            var json = new JsonErrorResponse
             {
-                Status = StatusCodes.Status500InternalServerError,
-                Title = "An error occurred while processing your request.",
-                Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1"
+                Messages = new[] { "An error occur.Try it again." }
             };
 
-            context.Result = new ObjectResult(details)
+            if (_env.IsDevelopment())
             {
-                StatusCode = StatusCodes.Status500InternalServerError
-            };
+                json.DeveloperMessage = context.Exception;
+            }
+
+            context.Result = new InternalServerErrorObjectResult(json);
+            context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+            //var details = new ProblemDetails
+            //{
+            //    Instance = context.HttpContext.Request.Path,
+            //    Status = StatusCodes.Status500InternalServerError,
+            //    Title = "An error occurred while processing your request.",
+            //    Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1"
+            //};
+
+            //context.Result = new ObjectResult(details)
+            //{
+            //    StatusCode = StatusCodes.Status500InternalServerError
+            //};
 
             context.ExceptionHandled = true;
         }
@@ -67,6 +83,7 @@ namespace Api.Filters
 
             var details = new ValidationProblemDetails(exception.Errors)
             {
+                Instance = context.HttpContext.Request.Path,
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
             };
 
@@ -79,6 +96,7 @@ namespace Api.Filters
         {
             var details = new ValidationProblemDetails(context.ModelState)
             {
+                Instance = context.HttpContext.Request.Path,
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
             };
 
@@ -93,6 +111,7 @@ namespace Api.Filters
 
             var details = new ProblemDetails()
             {
+                Instance = context.HttpContext.Request.Path,
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
                 Title = "The specified resource was not found.",
                 Detail = exception.Message
@@ -105,18 +124,26 @@ namespace Api.Filters
 
         private void HandleKnwldgDomainException(ExceptionContext context)
         {
-            var exception = context.Exception as KnwldgDomainException;
-
-            var details = new ProblemDetails()
+            var problemDetails = new ValidationProblemDetails()
             {
+                Instance = context.HttpContext.Request.Path,
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
-                Title = "The specified resource was not found.",
-                Detail = exception.Message
+                Status = StatusCodes.Status400BadRequest,
+                Detail = "Please refer to the errors property for additional details."
             };
 
-            context.Result = new BadRequestObjectResult(details);
+            problemDetails.Errors.Add("DomainValidations", new string[] { context.Exception.Message.ToString() });
+
+            context.Result = new BadRequestObjectResult(problemDetails);
 
             context.ExceptionHandled = true;
+        }
+
+        private class JsonErrorResponse
+        {
+            public string[] Messages { get; set; }
+
+            public object DeveloperMessage { get; set; }
         }
     }
 }

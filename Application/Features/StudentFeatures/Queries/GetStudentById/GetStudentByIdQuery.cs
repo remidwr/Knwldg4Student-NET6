@@ -21,6 +21,11 @@
         {
             var student = await _studentRepository.GetByIdAsync(request.Id);
 
+            if (student == null)
+            {
+                throw new NotFoundException(nameof(Student), request.Id);
+            }
+
             return _mapper.Map<StudentDetailedDto>(student);
         }
     }

@@ -1,6 +1,4 @@
-﻿using Domain.Exceptions;
-
-namespace Infrastructure.Repositories
+﻿namespace Infrastructure.Repositories
 {
     public class StudentRepository
         : IStudentRepository
@@ -32,11 +30,6 @@ namespace Infrastructure.Repositories
                 .Include(s => s.StudentMeetings)
                     .ThenInclude(sm => sm.Meeting)
                 .FirstOrDefaultAsync(s => s.Id == id);
-
-            if (student == null)
-            {
-                throw new KnwldgDomainException($"Student not found with id = {id}.");
-            }
 
             return student;
         }

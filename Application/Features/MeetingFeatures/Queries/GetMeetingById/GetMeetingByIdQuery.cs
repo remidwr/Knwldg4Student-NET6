@@ -21,6 +21,11 @@
         {
             var meeting = await _meetingRepository.GetByIdAsync(request.Id);
 
+            if (meeting == null)
+            {
+                throw new NotFoundException(nameof(Meeting), request.Id);
+            }
+
             return _mapper.Map<MeetingDetailedDto>(meeting);
         }
     }

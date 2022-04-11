@@ -1,6 +1,4 @@
-﻿using Domain.Exceptions;
-
-namespace Infrastructure.Repositories
+﻿namespace Infrastructure.Repositories
 {
     public class SectionRepository
         : ISectionRepository
@@ -30,11 +28,6 @@ namespace Infrastructure.Repositories
                 .Where(s => s.Id == id)
                 .OrderBy(s => s.Title)
                 .FirstOrDefaultAsync(cancellationToken);
-
-            if (section == null)
-            {
-                throw new KnwldgDomainException($"Section not found with id = {id}.");
-            }
 
             section.OrderCoursesByLabel();
 

@@ -1,6 +1,4 @@
-﻿using Application.Features.StudentFeatures.Commands.RateStudent;
-
-namespace Api.Controllers
+﻿namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

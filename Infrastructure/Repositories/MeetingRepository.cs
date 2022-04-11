@@ -1,6 +1,4 @@
-﻿using Domain.Exceptions;
-
-namespace Infrastructure.Repositories
+﻿namespace Infrastructure.Repositories
 {
     public class MeetingRepository
         : IMeetingRepository
@@ -51,11 +49,6 @@ namespace Infrastructure.Repositories
                 .Include(m => m.StudentMeetings)
                     .ThenInclude(mg => mg.Student)
                 .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (meeting == null)
-            {
-                throw new KnwldgDomainException($"Meeting not found with id \"{id}\"");
-            }
 
             return meeting;
         }

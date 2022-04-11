@@ -1,6 +1,7 @@
 ﻿global using System.Reflection;
 
 global using Application.Common.Behaviours;
+global using Application.Common.Exceptions;
 global using Application.Common.Handler;
 global using Application.Common.Mappings;
 global using Application.Features.MeetingFeatures.Queries.GetMeetingsByStudentId;

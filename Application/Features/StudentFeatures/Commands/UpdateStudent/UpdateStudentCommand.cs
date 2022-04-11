@@ -20,6 +20,12 @@
         public async Task<Unit> Handle(UpdateStudentCommand command, CancellationToken cancellationToken)
         {
             var student = await _studentRepository.GetByIdAsync(command.Id);
+
+            if (student == null)
+            {
+                throw new NotFoundException(nameof(Student), command.Id);
+            }
+
             student.UpdatePersonalInformations(command.FirstName, command.LastName, command.Description);
 
             await _studentRepository.UnitOfWork.SaveChangesAsync(cancellationToken);

@@ -1,6 +1,4 @@
-﻿using Application.Common.Exceptions;
-
-namespace Application.Features.StudentFeatures.Commands.RateStudent
+﻿namespace Application.Features.StudentFeatures.Commands.RateStudent
 {
     public class RateStudentCommand : IRequest<int>
     {
@@ -50,6 +48,12 @@ namespace Application.Features.StudentFeatures.Commands.RateStudent
         private async Task<string> GetReviewerFullNameAsync(int reviewerId)
         {
             var reviewer = await _studentRepository.GetByIdAsync(reviewerId);
+
+            if (reviewer == null)
+            {
+                throw new NotFoundException(nameof(Student), reviewerId);
+            }
+
             var reviewerFullName = $"{reviewer.FirstName} {reviewer.LastName}";
             return reviewerFullName;
         }
