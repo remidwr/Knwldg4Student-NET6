@@ -15,6 +15,9 @@ namespace Api
                     Description = "Knlwldg4Student API"
                 });
 
+                var filePath = Path.Combine(AppContext.BaseDirectory, "Api.xml");
+                options.IncludeXmlComments(filePath);
+
                 options.OperationFilter<AuthorizeCheckOperationFilter>();
             });
 

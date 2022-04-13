@@ -1,4 +1,5 @@
-﻿global using System.Reflection;
+﻿global using System.IdentityModel.Tokens.Jwt;
+global using System.Reflection;
 
 global using Application.Common.Behaviours;
 global using Application.Common.Exceptions;

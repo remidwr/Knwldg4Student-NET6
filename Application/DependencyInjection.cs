@@ -18,22 +18,26 @@
         {
             var domain = $"https://{configuration["Auth0:Domain"]}/";
 
-            services.AddAuthentication(option =>
+            // prevent from mapping "sub" claim to nameidentifier.
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
+
+            services.AddAuthentication(options =>
             {
-                option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(option =>
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
             {
-                option.Authority = domain;
-                option.Audience = configuration["Auth0:Audience"];
+                options.Authority = domain;
+                options.RequireHttpsMetadata = false;
+                options.Audience = configuration["Auth0:Audience"];
             });
 
-            services.AddAuthorization(option =>
+            services.AddAuthorization(options =>
             {
-                option.AddPolicy("read:messages", policy => policy.Requirements.Add(new HasScopeRequirement(domain, "read:messages")));
-                option.AddPolicy("write:messages", policy => policy.Requirements.Add(new HasScopeRequirement(domain, "write:messages")));
-                option.AddPolicy("read:users", policy => policy.Requirements.Add(new HasScopeRequirement(domain, "read:users")));
-                option.AddPolicy("write:users", policy => policy.Requirements.Add(new HasScopeRequirement(domain, "write:users")));
+                options.AddPolicy("read:messages", policy => policy.Requirements.Add(new HasScopeRequirement(domain, "read:messages")));
+                options.AddPolicy("write:messages", policy => policy.Requirements.Add(new HasScopeRequirement(domain, "write:messages")));
+                options.AddPolicy("read:users", policy => policy.Requirements.Add(new HasScopeRequirement(domain, "read:users")));
+                options.AddPolicy("write:users", policy => policy.Requirements.Add(new HasScopeRequirement(domain, "write:users")));
             });
 
             return services;
