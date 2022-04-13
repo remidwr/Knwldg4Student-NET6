@@ -26,10 +26,10 @@
             var section = await _context.Sections
                 .Include(s => s.Courses)
                 .Where(s => s.Id == id)
-                .OrderBy(s => s.Title)
+                .Select(s => new Section(
+                    s.Title,
+                    s.Courses.OrderBy(c => c.Label).ToList()))
                 .FirstOrDefaultAsync(cancellationToken);
-
-            section.OrderCoursesByLabel();
 
             return section;
         }

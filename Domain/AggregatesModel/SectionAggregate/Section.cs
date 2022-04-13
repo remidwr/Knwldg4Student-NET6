@@ -15,6 +15,12 @@
             Title = !string.IsNullOrWhiteSpace(title) ? title : throw new KnwldgDomainException(nameof(title));
         }
 
+        public Section(string title, ICollection<Course> courses)
+            : this(title)
+        {
+            Courses = courses;
+        }
+
         public string Title { get; private set; }
 
         public ICollection<Course> Courses { get; private set; }

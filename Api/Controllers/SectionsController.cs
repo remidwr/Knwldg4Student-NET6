@@ -1,11 +1,18 @@
-﻿namespace Api.Controllers
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace Api.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class SectionsController : ApiController
     {
+        /// <summary>
+        /// Get all sections
+        /// </summary>
+        /// <response code="200">Sections returned</response>
         [HttpGet]
-        //[Authorize("read:messages")]
+        [Authorize("read:messages")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SectionsVm))]
         public async Task<ActionResult<SectionsVm>> Get()
         {
@@ -13,11 +20,11 @@
         }
 
         /// <summary>
-        /// Get a section by id.
+        /// Find a section with courses
         /// </summary>
         /// <param name="id">Section id</param>
-        /// <response code="200">Section returned</response>
-        /// <response code="404">The section is not found.</response>
+        /// <response code="200">Section with courses returned</response>
+        /// <response code="404">Section not found</response>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SectionDetailedDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
