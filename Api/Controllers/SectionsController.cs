@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Api.Infrastructure.Services;
+
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
@@ -7,6 +9,13 @@ namespace Api.Controllers
     [ApiController]
     public class SectionsController : ApiController
     {
+        private readonly IIdentityService _identityService;
+
+        public SectionsController(IIdentityService identityService)
+        {
+            _identityService = identityService;
+        }
+
         /// <summary>
         /// Get all sections
         /// </summary>

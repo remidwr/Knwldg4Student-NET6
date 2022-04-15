@@ -59,20 +59,7 @@
             }
 
             context.Result = new InternalServerErrorObjectResult(json);
-            context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
-            //var details = new ProblemDetails
-            //{
-            //    Instance = context.HttpContext.Request.Path,
-            //    Status = StatusCodes.Status500InternalServerError,
-            //    Title = "An error occurred while processing your request.",
-            //    Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1"
-            //};
-
-            //context.Result = new ObjectResult(details)
-            //{
-            //    StatusCode = StatusCodes.Status500InternalServerError
-            //};
+            context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
             context.ExceptionHandled = true;
         }
@@ -81,26 +68,28 @@
         {
             var exception = context.Exception as ValidationException;
 
-            var details = new ValidationProblemDetails(exception.Errors)
+            var problemDetails = new ValidationProblemDetails(exception.Errors)
             {
+                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
                 Instance = context.HttpContext.Request.Path,
-                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
             };
 
-            context.Result = new BadRequestObjectResult(details);
+            problemDetails.Errors.Add("DomainValidations", new string[] { context.Exception.Message.ToString() });
+
+            context.Result = new BadRequestObjectResult(problemDetails);
 
             context.ExceptionHandled = true;
         }
 
         private static void HandleInvalidModelStateException(ExceptionContext context)
         {
-            var details = new ValidationProblemDetails(context.ModelState)
+            var problemDetails = new ValidationProblemDetails(context.ModelState)
             {
+                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
                 Instance = context.HttpContext.Request.Path,
-                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
             };
 
-            context.Result = new BadRequestObjectResult(details);
+            context.Result = new BadRequestObjectResult(problemDetails);
 
             context.ExceptionHandled = true;
         }
@@ -109,21 +98,23 @@
         {
             var exception = context.Exception as NotFoundException;
 
-            var details = new ProblemDetails()
+            var problemDetails = new ProblemDetails()
             {
                 Instance = context.HttpContext.Request.Path,
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
                 Title = "The specified resource was not found.",
-                Detail = exception.Message
+                Detail = exception?.Message
             };
 
-            context.Result = new NotFoundObjectResult(details);
+            context.Result = new NotFoundObjectResult(problemDetails);
 
             context.ExceptionHandled = true;
         }
 
         private void HandleKnwldgDomainException(ExceptionContext context)
         {
+            var exception = context.Exception as KnwldgDomainException;
+
             var problemDetails = new ValidationProblemDetails()
             {
                 Instance = context.HttpContext.Request.Path,
@@ -131,8 +122,6 @@
                 Status = StatusCodes.Status400BadRequest,
                 Detail = "Please refer to the errors property for additional details."
             };
-
-            problemDetails.Errors.Add("DomainValidations", new string[] { context.Exception.Message.ToString() });
 
             context.Result = new BadRequestObjectResult(problemDetails);
 

@@ -40,6 +40,8 @@
                 options.AddPolicy("write:users", policy => policy.Requirements.Add(new HasScopeRequirement(domain, "write:users")));
             });
 
+            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
+
             return services;
         }
     }
