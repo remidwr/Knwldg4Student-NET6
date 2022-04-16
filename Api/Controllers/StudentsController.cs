@@ -1,4 +1,6 @@
-﻿namespace Api.Controllers
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -8,6 +10,7 @@
         /// Get all students.
         /// </summary>
         [HttpGet]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentsVm))]
         public async Task<ActionResult<StudentsVm>> Get()
         {
@@ -21,6 +24,7 @@
         /// <response code="200">Student returned</response>
         /// <response code="404">Student not found</response>
         [HttpGet("{id:int}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentDetailedDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<StudentDetailedDto>> GetById([FromRoute] int id)
@@ -35,6 +39,7 @@
         /// <response code="201">Student successfully added</response>
         /// <response code="400">Invalid request</response>
         [HttpPost]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<int>> Create(CreateStudentCommand command)
@@ -50,6 +55,7 @@
         /// <response code="404">Student or joint meeting not found</response>
         /// <response code="400">Invalid request</response>
         [HttpPost("Rating")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -67,6 +73,7 @@
         /// <response code="404">Student not found</response>
         /// <response code="400">Invalid request</response>
         [HttpPut("{id:int}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

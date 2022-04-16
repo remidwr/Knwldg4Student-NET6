@@ -1,4 +1,11 @@
-﻿using Api.Infrastructure.Services;
+﻿using System.Reflection;
+
+using Api.Infrastructure.Services;
+
+using Serilog;
+using Serilog.Exceptions;
+using Serilog.Exceptions.Core;
+using Serilog.Exceptions.EntityFrameworkCore.Destructurers;
 
 namespace Api
 {
@@ -10,18 +17,31 @@ namespace Api
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Knwldg4Student API",
                     Version = "v1",
-                    Description = "Knlwldg4Student API"
+                    Title = "Knwldg4Student API",
+                    Description = "Knlwldg4Student Web API to help students.",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Rémi Dwr"
+                    }
                 });
 
-                var filePath = Path.Combine(AppContext.BaseDirectory, "Api.xml");
-                options.IncludeXmlComments(filePath);
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 
                 options.OperationFilter<AuthorizeCheckOperationFilter>();
             });
 
             return services;
+        }
+
+        public static void UseSerilogConfiguration(this IHostBuilder host, IConfiguration configuration)
+        {
+            host.UseSerilog((ctx, lc) => lc
+                .ReadFrom.Configuration(configuration)
+                .Enrich.WithExceptionDetails(new DestructuringOptionsBuilder()
+                .WithDefaultDestructurers()
+                .WithDestructurers(new[] { new DbUpdateExceptionDestructurer() })));
         }
 
         public static IServiceCollection AddCustomIntegrations(this IServiceCollection services)
