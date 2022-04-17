@@ -1,9 +1,6 @@
 ﻿namespace Application.Features.StudentFeatures.Queries.GetStudentById
 {
-    public class GetStudentByIdQuery : IRequest<StudentDetailedDto>
-    {
-        public int Id { get; set; }
-    }
+    public record GetStudentByIdQuery(int Id) : IRequest<StudentDetailedDto>;
 
     public class GetStudentByIdHandler : IRequestHandler<GetStudentByIdQuery, StudentDetailedDto>
     {

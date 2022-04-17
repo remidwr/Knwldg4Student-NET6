@@ -1,9 +1,6 @@
 ﻿namespace Application.Features.MeetingFeatures.Queries.GetMeetingsByStudentId
 {
-    public class GetMeetingsFromStudentIdQuery : IRequest<MeetingsVm>
-    {
-        public int Id { get; set; }
-    }
+    public record GetMeetingsFromStudentIdQuery(int Id) : IRequest<MeetingsVm>;
 
     public class GetMeetingsFromStudentIdQueryHandler : IRequestHandler<GetMeetingsFromStudentIdQuery, MeetingsVm>
     {

@@ -16,7 +16,7 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MeetingsVm))]
         public async Task<ActionResult<MeetingsVm>> GetMeetingsFromStudentId([FromRoute] int id)
         {
-            return await Mediator.Send(new GetMeetingsFromStudentIdQuery() { Id = id });
+            return await Mediator.Send(new GetMeetingsFromStudentIdQuery(id));
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<MeetingDetailedDto>> GetById([FromRoute] int id)
         {
-            return await Mediator.Send(new GetMeetingByIdQuery() { Id = id });
+            return await Mediator.Send(new GetMeetingByIdQuery(id));
         }
 
         /// <summary>

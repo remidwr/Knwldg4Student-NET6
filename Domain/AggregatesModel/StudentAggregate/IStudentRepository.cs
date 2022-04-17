@@ -14,5 +14,7 @@
         Task<bool> HasUniqueEmailAsync(string email);
 
         Rating AddRating(Rating rating);
+
+        UnavailableDay AddUnavailableDay(UnavailableDay day);
     }
 }

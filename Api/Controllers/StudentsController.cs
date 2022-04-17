@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Application.Features.StudentFeatures.Commands.AddUnavailableDay;
+
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
@@ -29,7 +31,7 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<StudentDetailedDto>> GetById([FromRoute] int id)
         {
-            return await Mediator.Send(new GetStudentByIdQuery { Id = id });
+            return await Mediator.Send(new GetStudentByIdQuery(id));
         }
 
         /// <summary>
@@ -84,6 +86,16 @@ namespace Api.Controllers
 
             await Mediator.Send(command);
             return NoContent();
+        }
+
+        [HttpPost("{id:int}/DayOff")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> AddUnavailableDay([FromRoute] int id, CreateUnavailableDayCommand command)
+        {
+            return Ok();
         }
     }
 }

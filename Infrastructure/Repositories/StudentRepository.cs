@@ -74,5 +74,19 @@
                 return rating;
             }
         }
+
+        public UnavailableDay AddUnavailableDay(UnavailableDay day)
+        {
+            if (day.IsTransient())
+            {
+                return _context.UnavailableDays
+                    .Add(day)
+                    .Entity;
+            }
+            else
+            {
+                return day;
+            }
+        }
     }
 }

@@ -1,9 +1,6 @@
 ﻿namespace Application.Features.SectionFeatures.Queries.GetSectionById
 {
-    public class GetSectionByIdQuery : IRequest<SectionDetailedDto>
-    {
-        public int Id { get; set; }
-    }
+    public record GetSectionByIdQuery(int Id) : IRequest<SectionDetailedDto>;
 
     public class GetSectionByIdQueryHandler : IRequestHandler<GetSectionByIdQuery, SectionDetailedDto>
     {

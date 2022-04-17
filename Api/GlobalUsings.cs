@@ -1,6 +1,4 @@
-﻿global using System.Net;
-
-global using Api;
+﻿global using Api;
 global using Api.Filters;
 global using Api.Infrastructure.ActionResults;
 

@@ -40,7 +40,7 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<SectionDetailedDto>> GetById([FromRoute] int id)
         {
-            return await Mediator.Send(new GetSectionByIdQuery { Id = id });
+            return await Mediator.Send(new GetSectionByIdQuery(id));
         }
     }
 }
