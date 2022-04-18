@@ -2,11 +2,9 @@
 
 using Microsoft.AspNetCore.Authorization;
 
-namespace Api.Controllers
+namespace Api.Controllers.v1
 {
-    [Route("api/[controller]")]
-    [Authorize]
-    [ApiController]
+    [ApiVersion("1.0")]
     public class SectionsController : ApiController
     {
         private readonly IIdentityService _identityService;
@@ -21,7 +19,7 @@ namespace Api.Controllers
         /// </summary>
         /// <response code="200">Sections returned</response>
         [HttpGet]
-        [Authorize]
+        //[Authorize("read:messages")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SectionsVm))]
         public async Task<ActionResult<SectionsVm>> Get()
         {

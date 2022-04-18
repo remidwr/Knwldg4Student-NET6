@@ -35,6 +35,18 @@ namespace Api
             return services;
         }
 
+        public static IServiceCollection AddApiVersioningConfiguration(this IServiceCollection services)
+        {
+            services.AddApiVersioning(config =>
+            {
+                config.DefaultApiVersion = new ApiVersion(1, 0);
+                config.AssumeDefaultVersionWhenUnspecified = true;
+                config.ReportApiVersions = true;
+            });
+
+            return services;
+        }
+
         public static void UseSerilogConfiguration(this IHostBuilder host, IConfiguration configuration)
         {
             host.UseSerilog((ctx, lc) => lc

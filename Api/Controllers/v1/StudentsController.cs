@@ -2,10 +2,9 @@
 
 using Microsoft.AspNetCore.Authorization;
 
-namespace Api.Controllers
+namespace Api.Controllers.v1
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    [ApiVersion("1.0")]
     public class StudentsController : ApiController
     {
         /// <summary>

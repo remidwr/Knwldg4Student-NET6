@@ -1,4 +1,8 @@
-﻿namespace Application
+﻿using Application.Common.ExternalApi.NumbersApi;
+
+using Flurl;
+
+namespace Application
 {
     public static class DependencyInjection
     {
@@ -12,6 +16,8 @@
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 
             services.AddAuth0(configuration);
+
+            services.AddNumbersApiConfiguration(configuration);
 
             return services;
         }
@@ -43,6 +49,29 @@
             });
 
             services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddNumbersApiConfiguration(this IServiceCollection services, IConfiguration configuration)
+        {
+            var now = DateTime.Now;
+
+            var baseUrl = configuration["NumbersApi:BaseUrl"];
+            var getDateFactPath = configuration["NumbersApi:GetDateFactPath"];
+
+            getDateFactPath = string.Format(getDateFactPath, now.Month, now.Day);
+            var getDateFactCompletePath = Url.Combine(baseUrl, getDateFactPath);
+
+            services.AddHttpClient<NumbersClient>("NumbersClient", config =>
+            {
+                config.BaseAddress = new Uri(getDateFactCompletePath);
+                config.DefaultRequestHeaders.Add("X-RapidAPI-Host", configuration["NumbersApi:X-RapidAPI-Host"]);
+                config.DefaultRequestHeaders.Add("X-RapidAPI-Key", configuration["NumbersApi:X-RapidAPI-Key"]);
+                config.Timeout = TimeSpan.FromSeconds(30);
+            });
+
+            services.AddTransient<INumbersApi, NumbersApi>();
 
             return services;
         }

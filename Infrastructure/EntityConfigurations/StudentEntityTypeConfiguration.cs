@@ -9,6 +9,8 @@
 
             studentConfiguration.HasKey(s => s.Id);
 
+            studentConfiguration.HasIndex(s => s.ExternalId);
+
             studentConfiguration.HasIndex(s => new { s.LastName, s.FirstName }, "IX_Students_FullName");
 
             studentConfiguration.HasIndex(s => s.Email, "UK_Students_Email")
@@ -25,6 +27,9 @@
 
             studentConfiguration.Property(s => s.LastName)
                 .IsRequired()
+                .HasMaxLength(50);
+
+            studentConfiguration.Property(s => s.Password)
                 .HasMaxLength(50);
 
             studentConfiguration.HasMany(c => c.Courses)

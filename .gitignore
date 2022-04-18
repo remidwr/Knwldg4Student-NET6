@@ -362,3 +362,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /Api/log.txt
+/Infrastructure/Persistence/Migrations/20220418091811_AddExternalIdForStudent.cs
+/Infrastructure/Persistence/Migrations/20220418091811_AddExternalIdForStudent.Designer.cs
