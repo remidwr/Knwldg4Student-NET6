@@ -12,20 +12,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCustomSwagger();
 builder.Services.AddApiVersioningConfiguration();
 builder.Services.AddCustomIntegrations();
-
 builder.Services.AddApplication(configuration);
 builder.Services.AddInfrastructure(configuration);
+builder.Services.AddMvcConfiguration();
 
-builder.Services.AddMvc(options =>
+builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
-    options.Filters.Add(typeof(ApiExceptionFilterAttribute));
-    options.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
-    options.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
-    options.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status401Unauthorized));
-    options.ReturnHttpNotAcceptable = true;
-}).AddFluentValidation();
-
-builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 var app = builder.Build();
 app.UseSerilogRequestLogging();

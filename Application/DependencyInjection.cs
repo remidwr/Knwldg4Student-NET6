@@ -69,11 +69,30 @@ namespace Application
                 config.DefaultRequestHeaders.Add("X-RapidAPI-Host", configuration["NumbersApi:X-RapidAPI-Host"]);
                 config.DefaultRequestHeaders.Add("X-RapidAPI-Key", configuration["NumbersApi:X-RapidAPI-Key"]);
                 config.Timeout = TimeSpan.FromSeconds(30);
-            });
+            })
+                .SetHandlerLifetime(TimeSpan.FromMinutes(5))
+                .AddPolicyHandler(GetRetryPolicy())
+                .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddTransient<INumbersApi, NumbersApi>();
 
             return services;
+        }
+
+        private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+        {
+            return HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+                .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2,
+                                                                            retryAttempt)));
+        }
+
+        private static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()
+        {
+            return HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .CircuitBreakerAsync(5, TimeSpan.FromSeconds(30));
         }
     }
 }

@@ -2,6 +2,10 @@
 
 using Api.Infrastructure.Services;
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
+
 using Serilog;
 using Serilog.Exceptions;
 using Serilog.Exceptions.Core;
@@ -30,7 +34,8 @@ namespace Api
                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 
                 options.OperationFilter<AuthorizeCheckOperationFilter>();
-            });
+            })
+                .AddSwaggerGenNewtonsoftSupport();
 
             return services;
         }
@@ -62,6 +67,28 @@ namespace Api
             services.AddTransient<IIdentityService, IdentityService>();
 
             return services;
+        }
+
+        public static void AddMvcConfiguration(this IServiceCollection services)
+        {
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(ApiExceptionFilterAttribute));
+                options.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
+                options.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
+                options.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status401Unauthorized));
+                options.ReturnHttpNotAcceptable = true;
+            })
+                .AddFluentValidation()
+                .AddNewtonsoftJson(options =>
+                {
+                    var settings = options.SerializerSettings;
+                    settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    settings.Converters.Add(new StringEnumConverter());
+                    settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    settings.DateTimeZoneHandling = DateTimeZoneHandling.Local;
+                    settings.Formatting = Formatting.Indented;
+                });
         }
     }
 }

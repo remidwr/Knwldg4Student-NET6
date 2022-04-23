@@ -1,6 +1,8 @@
 ﻿using System.Text;
 using System.Text.Json;
 
+using Polly.CircuitBreaker;
+
 namespace Application.Common.ExternalApi
 {
     public class BaseHttpClient
@@ -54,7 +56,8 @@ namespace Application.Common.ExternalApi
             catch (Exception ex) when (ex is ArgumentNullException ||
                                        ex is InvalidOperationException ||
                                        ex is HttpRequestException ||
-                                       ex is JsonException)
+                                       ex is JsonException ||
+                                       ex is BrokenCircuitException)
             {
                 throw new Exception("HttpClient exception", ex);
             }
