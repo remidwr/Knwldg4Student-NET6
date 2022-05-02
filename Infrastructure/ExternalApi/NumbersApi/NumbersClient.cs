@@ -1,6 +1,8 @@
-﻿using Flurl;
+﻿using Application.Common.ExternalApi.NumbersApi;
 
-namespace Application.Common.ExternalApi.NumbersApi
+using Flurl;
+
+namespace Infrastructure.ExternalApi.NumbersApi
 {
     public class NumbersClient : BaseHttpClient
     {

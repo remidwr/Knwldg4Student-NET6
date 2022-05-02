@@ -1,7 +1,5 @@
 ﻿using Api.Infrastructure.Services;
 
-using Microsoft.AspNetCore.Authorization;
-
 namespace Api.Controllers.v1
 {
     [ApiVersion("1.0")]
@@ -33,7 +31,7 @@ namespace Api.Controllers.v1
         /// <response code="200">Section with courses returned</response>
         /// <response code="404">Section not found</response>
         [HttpGet("{id}")]
-        [Authorize]
+        //[Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SectionDetailedDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<SectionDetailedDto>> GetById([FromRoute] int id)

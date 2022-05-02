@@ -3,7 +3,7 @@ using System.Text.Json;
 
 using Polly.CircuitBreaker;
 
-namespace Application.Common.ExternalApi
+namespace Infrastructure.ExternalApi
 {
     public class BaseHttpClient
     {

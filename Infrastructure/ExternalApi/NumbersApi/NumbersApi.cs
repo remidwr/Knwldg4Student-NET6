@@ -1,4 +1,6 @@
-﻿namespace Application.Common.ExternalApi.NumbersApi
+﻿using Application.Common.ExternalApi.NumbersApi;
+
+namespace Infrastructure.ExternalApi.NumbersApi
 {
     public class NumbersApi : INumbersApi
     {
