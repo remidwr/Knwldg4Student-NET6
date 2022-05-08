@@ -25,7 +25,7 @@ namespace Api.Controllers.v1
         /// <response code="200">Meeting returned</response>
         /// <response code="404">Meeting not found</response>
         [HttpGet("{id:int}")]
-        [Authorize]
+        [Authorize(Policy = "read:messages")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MeetingDetailedDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<MeetingDetailedDto>> GetById([FromRoute] int id)

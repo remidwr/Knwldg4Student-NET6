@@ -11,7 +11,7 @@
                 _getDateFactPath = configuration["NumbersApi:GetDateFactPath"];
             }
 
-            public string GetDateFacts => string.Format(_getDateFactPath, DateTime.Now.Month, DateTime.Now.Day)
+            public string GetDateFacts => string.Format(_getDateFactPath, DateTime.Now.Month, DateTime.Now.Day);
         }
     }
 }

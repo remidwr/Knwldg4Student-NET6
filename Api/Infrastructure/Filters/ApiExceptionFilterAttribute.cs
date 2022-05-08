@@ -1,4 +1,4 @@
-﻿namespace Api.Filters
+﻿namespace Api.Infrastructure.Filters
 {
     public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {

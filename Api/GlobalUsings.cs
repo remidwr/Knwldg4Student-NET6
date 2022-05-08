@@ -1,6 +1,6 @@
 ﻿global using Api;
-global using Api.Filters;
 global using Api.Infrastructure.ActionResults;
+global using Api.Infrastructure.Filters;
 
 global using Application;
 global using Application.Common.Exceptions;
