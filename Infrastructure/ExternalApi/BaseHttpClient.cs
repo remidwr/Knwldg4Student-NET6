@@ -7,25 +7,25 @@ namespace Infrastructure.ExternalApi
 {
     public class BaseHttpClient
     {
-        private readonly HttpClient _httpClient;
+        protected readonly HttpClient _httpClient;
 
         protected BaseHttpClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        protected async Task<T> Get<T>(string uri)
+        protected async Task<T> GetAsync<T>(string uri)
         {
             var request = CreateRequest(HttpMethod.Get, uri);
 
-            return await ExecuteRequest<T>(request);
+            return await ExecuteRequestAsync<T>(request);
         }
 
-        protected async Task<T> Post<T>(string uri, object content)
+        protected async Task<T> PostAsync<T>(string uri, object content)
         {
             var request = CreateRequest(HttpMethod.Post, uri, content);
 
-            return await ExecuteRequest<T>(request);
+            return await ExecuteRequestAsync<T>(request);
         }
 
         private static HttpRequestMessage CreateRequest(HttpMethod httpMethod, string uri, object content = null)
@@ -41,7 +41,7 @@ namespace Infrastructure.ExternalApi
             return request;
         }
 
-        private async Task<T> ExecuteRequest<T>(HttpRequestMessage request)
+        private async Task<T> ExecuteRequestAsync<T>(HttpRequestMessage request)
         {
             try
             {

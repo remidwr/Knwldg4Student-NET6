@@ -40,7 +40,7 @@ namespace Api.Controllers.v1
         /// <response code="201">Student successfully added</response>
         /// <response code="400">Invalid request</response>
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<int>> Create(CreateStudentCommand command)

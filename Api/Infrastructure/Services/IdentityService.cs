@@ -1,6 +1,7 @@
 ﻿namespace Api.Infrastructure.Services
 {
     public class IdentityService : IIdentityService
+
     {
         private IHttpContextAccessor _context;
 
@@ -11,7 +12,7 @@
 
         public string GetUserIdentity()
         {
-            return _context.HttpContext.User.FindFirst("sub").Value;
+            return _context.HttpContext.User.Claims.First(x => x.Type.EndsWith("nameidentifier")).Value;
         }
 
         public string GetUserName()

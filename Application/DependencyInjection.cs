@@ -18,7 +18,7 @@
 
         private static IServiceCollection AddAuth0(this IServiceCollection services, IConfiguration configuration)
         {
-            var domain = $"https://{configuration["Auth0:Domain"]}/";
+            var domain = $"https://{configuration["Auth0Setting:Domain"]}/";
 
             // prevent from mapping "sub" claim to nameidentifier.
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
@@ -31,7 +31,7 @@
             {
                 options.Authority = domain;
                 options.RequireHttpsMetadata = false;
-                options.Audience = configuration["Auth0:Audience"];
+                options.Audience = configuration["Auth0Setting:KnwldgApiAudience"];
             });
 
             services.AddAuthorization(options =>

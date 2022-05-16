@@ -8,13 +8,13 @@
         {
             _studentRepository = studentRepository;
 
-            RuleFor(s => s.FirstName)
-                .NotEmpty().WithMessage("First name is required.")
-                .MaximumLength(50).WithMessage("First name must not exceed 50 characters.");
+            RuleFor(s => s.Username)
+                .NotEmpty().WithMessage("Username is required.")
+                .MaximumLength(200).WithMessage("Username must not exceed 200 characters.");
 
-            RuleFor(s => s.LastName)
-                .NotEmpty().WithMessage("Last name is required.")
-                .MaximumLength(50).WithMessage("Last name must not exceed 50 characters.");
+            RuleFor(s => s.Password)
+                .NotEmpty().WithMessage("Password is required.")
+                .MaximumLength(50).WithMessage("Password must not exceed 50 characters.");
 
             RuleFor(s => s.Email)
                 .NotEmpty().WithMessage("Email is required.")

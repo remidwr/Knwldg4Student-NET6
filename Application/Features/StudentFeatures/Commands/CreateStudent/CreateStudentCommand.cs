@@ -1,25 +1,37 @@
-﻿namespace Application.Features.StudentFeatures.Commands.CreateStudent
+﻿using Application.Common.ExternalApi.Auth0Api;
+
+namespace Application.Features.StudentFeatures.Commands.CreateStudent
 {
     public class CreateStudentCommand : IRequest<int>
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string Username { get; set; }
         public string Email { get; set; }
-        public string? Description { get; set; }
+        public string Password { get; set; }
     }
 
     public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand, int>
     {
         private readonly IStudentRepository _studentRepository;
+        private readonly IAuth0Api _auth0Api;
 
-        public CreateStudentCommandHandler(IStudentRepository studentRepository)
+        public CreateStudentCommandHandler(IStudentRepository studentRepository,
+            IAuth0Api auth0Api)
         {
             _studentRepository = studentRepository;
+            _auth0Api = auth0Api;
         }
 
         public async Task<int> Handle(CreateStudentCommand command, CancellationToken cancellationToken)
         {
-            var student = new Student(command.FirstName, command.LastName, command.Email, command.Description);
+            var user = await _auth0Api.CreateUserAsync(command);
+
+            if (user == null)
+            {
+                //TODO throw exception
+                return 0;
+            }
+
+            var student = new Student(user.UserId, command.Username, command.Email, command.Password);
             _studentRepository.Add(student);
 
             await _studentRepository.UnitOfWork.SaveChangesAsync(cancellationToken);

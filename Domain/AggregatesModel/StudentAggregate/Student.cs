@@ -11,18 +11,19 @@
             UnavailableDays = new HashSet<UnavailableDay>();
         }
 
-        public Student(string firstName, string lastName, string email, string description)
+        public Student(string userId, string username, string email, string password)
             : this()
         {
-            FirstName = firstName;
-            LastName = !string.IsNullOrWhiteSpace(lastName) ? lastName : throw new ArgumentNullException(nameof(lastName));
+            ExternalId = !string.IsNullOrWhiteSpace(userId) ? userId : throw new ArgumentNullException(nameof(userId));
+            Username = !string.IsNullOrWhiteSpace(username) ? username : throw new ArgumentNullException(nameof(username));
             Email = !string.IsNullOrWhiteSpace(email) ? email : throw new ArgumentNullException(nameof(email));
-            Description = description;
+            Password = !string.IsNullOrWhiteSpace(password) ? password : throw new ArgumentNullException(nameof(password));
         }
 
         public string ExternalId { get; private set; }
         public string? FirstName { get; private set; }
-        public string LastName { get; private set; }
+        public string? LastName { get; private set; }
+        public string Username { get; private set; }
         public string Email { get; private set; }
         public string Password { get; private set; }
         public string? Description { get; private set; }

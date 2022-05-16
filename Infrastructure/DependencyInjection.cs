@@ -1,7 +1,9 @@
-﻿using Application.Common.ExternalApi.NumbersApi;
+﻿using Application.Common.ExternalApi.Auth0Api;
+using Application.Common.ExternalApi.NumbersApi;
 
 using Flurl;
 
+using Infrastructure.ExternalApi.Auth0Api;
 using Infrastructure.ExternalApi.NumbersApi;
 using Infrastructure.Repositories;
 
@@ -21,6 +23,7 @@ namespace Infrastructure
 
             services.AddScoped<IUnitOfWork>(provider => provider.GetService<KnwldgContext>());
             services.AddRepositories();
+            services.AddAuth0ApiConfiguration(configuration);
             services.AddNumbersApiConfiguration(configuration);
 
             return services;
@@ -57,6 +60,22 @@ namespace Infrastructure
             .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddTransient<INumbersApi, NumbersApi>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddAuth0ApiConfiguration(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddHttpClient<Auth0Client>("Auth0Client", config =>
+            {
+                config.BaseAddress = new Uri($"https://{configuration["Auth0Setting:Domain"]}");
+                config.Timeout = TimeSpan.FromSeconds(30);
+            })
+            .SetHandlerLifetime(TimeSpan.FromMinutes(5))
+            .AddPolicyHandler(GetRetryPolicy())
+            .AddPolicyHandler(GetCircuitBreakerPolicy());
+
+            services.AddTransient<IAuth0Api, Auth0Api>();
 
             return services;
         }

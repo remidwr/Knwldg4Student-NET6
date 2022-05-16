@@ -9,12 +9,14 @@
 
             studentConfiguration.HasKey(s => s.Id);
 
-            studentConfiguration.HasIndex(s => s.ExternalId);
-
             studentConfiguration.HasIndex(s => new { s.LastName, s.FirstName }, "IX_Students_FullName");
 
             studentConfiguration.HasIndex(s => s.Email, "UK_Students_Email")
                 .IsUnique();
+
+            studentConfiguration.Property(s => s.ExternalId)
+                .IsRequired()
+                .HasMaxLength(200);
 
             studentConfiguration.Property(s => s.Description);
 
@@ -26,6 +28,10 @@
                 .HasMaxLength(50);
 
             studentConfiguration.Property(s => s.LastName)
+                //.IsRequired()
+                .HasMaxLength(50);
+
+            studentConfiguration.Property(s => s.Username)
                 .IsRequired()
                 .HasMaxLength(50);
 
