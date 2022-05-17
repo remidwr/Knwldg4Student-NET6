@@ -28,9 +28,4 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Auth0Features\Commands\CreateUser\" />
-    <Folder Include="Features\Auth0Features\Queries\" />
-  </ItemGroup>
-
 </Project>

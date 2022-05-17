@@ -25,12 +25,6 @@ namespace Application.Features.StudentFeatures.Commands.CreateStudent
         {
             var user = await _auth0Api.CreateUserAsync(command);
 
-            if (user == null)
-            {
-                //TODO throw exception
-                return 0;
-            }
-
             var student = new Student(user.UserId, command.Username, command.Email, command.Password);
             _studentRepository.Add(student);
 

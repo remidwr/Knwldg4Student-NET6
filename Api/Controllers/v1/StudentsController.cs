@@ -1,4 +1,5 @@
 ﻿using Application.Features.StudentFeatures.Commands.AddUnavailableDay;
+using Application.Features.StudentFeatures.Commands.AssignRolesToStudent;
 
 using Microsoft.AspNetCore.Authorization;
 
@@ -40,10 +41,26 @@ namespace Api.Controllers.v1
         /// <response code="201">Student successfully added</response>
         /// <response code="400">Invalid request</response>
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<int>> Create(CreateStudentCommand command)
+        {
+            return await Mediator.Send(command);
+        }
+
+        /// <summary>
+        /// Assign roles to student.
+        /// </summary>
+        /// <param name="id">Student id</param>
+        /// <param name="command">Student and roles inputs</param>
+        /// <response code="204">Roles successfully assigned to student</response>
+        /// <response code="400">Invalid request</response>
+        [HttpPost("{id}/roles")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Unit>> AssignRolesToStudent([FromRoute] string id, AssignRolesToStudentCommand command)
         {
             return await Mediator.Send(command);
         }

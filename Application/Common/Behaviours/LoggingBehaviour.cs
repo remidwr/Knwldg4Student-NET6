@@ -17,7 +17,9 @@ namespace Application.Common.Behaviours
             var typeName = typeof(TRequest).Name;
 
             _logger.LogInformation("----- Handling command {CommandName} ({@Command})", typeName, request);
+
             var response = await next();
+
             _logger.LogInformation("----- Command {CommandName} handled - response: {@Response}", typeName, response);
 
             return response;

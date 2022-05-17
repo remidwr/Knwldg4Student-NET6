@@ -1,4 +1,5 @@
-﻿using Application.Features.StudentFeatures.Commands.CreateStudent;
+﻿using Application.Features.StudentFeatures.Commands.AssignRolesToStudent;
+using Application.Features.StudentFeatures.Commands.CreateStudent;
 
 namespace Application.Common.ExternalApi.Auth0Api
 {
@@ -7,5 +8,9 @@ namespace Application.Common.ExternalApi.Auth0Api
         Task<TokenResponse> GetTokenAsync();
 
         Task<UserCreationResponse> CreateUserAsync(CreateStudentCommand student);
+
+        Task<IEnumerable<RoleResponse>> GetRolesAsync();
+
+        Task AssignRolesToUserAsync(AssignRolesToStudentCommand command);
     }
 }
