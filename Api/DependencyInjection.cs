@@ -20,6 +20,23 @@ namespace Api
 {
     public static class DependencyInjection
     {
+        public static IServiceCollection AddCorsConfiguration(this IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                          builder =>
+                          {
+                              builder.WithOrigins("http://localhost:4200")
+                                                  .AllowAnyHeader()
+                                                  .AllowAnyMethod()
+                                                  .AllowCredentials();
+                          });
+            });
+
+            return services;
+        }
+
         public static IServiceCollection AddCustomSwagger(this IServiceCollection services)
         {
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerConfigureOptions>();

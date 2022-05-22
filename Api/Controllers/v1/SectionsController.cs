@@ -17,7 +17,6 @@ namespace Api.Controllers.v1
         /// </summary>
         /// <response code="200">Sections returned</response>
         [HttpGet]
-        //[Authorize("read:messages")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SectionsVm))]
         public async Task<ActionResult<SectionsVm>> Get()
         {
@@ -31,7 +30,6 @@ namespace Api.Controllers.v1
         /// <response code="200">Section with courses returned</response>
         /// <response code="404">Section not found</response>
         [HttpGet("{id}")]
-        //[Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SectionDetailedDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<SectionDetailedDto>> GetById([FromRoute] int id)

@@ -6,6 +6,7 @@ var configuration = builder.Configuration;
 builder.Host.UseSerilogConfiguration(configuration);
 
 // Add services to the container.
+builder.Services.AddCorsConfiguration();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCustomSwagger();
@@ -22,6 +23,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 
 var app = builder.Build();
 app.UseSerilogRequestLogging();
+app.UseCors("CorsPolicy");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
