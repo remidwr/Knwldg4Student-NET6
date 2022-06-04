@@ -21,6 +21,19 @@
             return students;
         }
 
+        public async Task<Student> GetByIdAsync(string id)
+        {
+            var student = await _context.Students
+                .Include(s => s.Ratings)
+                .Include(s => s.UnavailableDays)
+                .Include(s => s.Courses)
+                .Include(s => s.StudentMeetings)
+                    .ThenInclude(sm => sm.Meeting)
+                .FirstOrDefaultAsync(s => s.ExternalId == id);
+
+            return student;
+        }
+
         public async Task<Student> GetByIdAsync(int id)
         {
             var student = await _context.Students

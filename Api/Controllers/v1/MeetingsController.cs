@@ -10,12 +10,12 @@ namespace Api.Controllers.v1
         /// </summary>
         /// <param name="id">Student id</param>
         /// <response code="200">Meetings returned</response>
-        [HttpGet("FromStudent/{id:int}")]
-        [Authorize]
+        [HttpGet]
+        [Authorize(Policy = "view:meetings")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MeetingsVm))]
-        public async Task<ActionResult<MeetingsVm>> GetMeetingsFromStudentId([FromRoute] int id)
+        public async Task<ActionResult<MeetingsVm>> GetMeetingsFromStudentId()
         {
-            return await Mediator.Send(new GetMeetingsFromStudentIdQuery(id));
+            return await Mediator.Send(new GetMeetingsQuery());
         }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace Api.Controllers.v1
         /// <response code="200">Meeting returned</response>
         /// <response code="404">Meeting not found</response>
         [HttpGet("{id:int}")]
-        [Authorize(Policy = "read:messages")]
+        [Authorize(Policy = "view:meetings")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MeetingDetailedDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<MeetingDetailedDto>> GetById([FromRoute] int id)
@@ -40,7 +40,7 @@ namespace Api.Controllers.v1
         /// <response code="201">Meeting added</response>
         /// <response code="400">Invalid request</response>
         [HttpPost]
-        [Authorize]
+        [Authorize(Policy = "create:meetings")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<int>> Create([FromBody] CreateMeetingCommand command)

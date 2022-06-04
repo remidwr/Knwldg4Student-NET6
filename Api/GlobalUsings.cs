@@ -6,7 +6,7 @@ global using Application;
 global using Application.Common.Exceptions;
 global using Application.Features.MeetingFeatures.Commands.CreateMeeting;
 global using Application.Features.MeetingFeatures.Queries.GetMeetingById;
-global using Application.Features.MeetingFeatures.Queries.GetMeetingsByStudentId;
+global using Application.Features.MeetingFeatures.Queries.GetMeetings;
 global using Application.Features.SectionFeatures.Queries.GetSectionById;
 global using Application.Features.SectionFeatures.Queries.GetSections;
 global using Application.Features.StudentFeatures.Commands.CreateStudent;

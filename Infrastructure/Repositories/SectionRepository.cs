@@ -15,6 +15,7 @@
         public async Task<IEnumerable<Section>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             var sections = await _context.Sections
+                .Include(s => s.Courses)
                 .OrderBy(s => s.Title)
                 .ToListAsync(cancellationToken);
 
@@ -32,6 +33,17 @@
                 .FirstOrDefaultAsync(cancellationToken);
 
             return section;
+        }
+
+        public async Task<IEnumerable<Course>> GetCoursesBySectionIdAsync(int id, CancellationToken cancellationToken = default)
+        {
+            var courses = await _context.Sections
+                                        .Include(s => s.Courses)
+                                        .Where(s => s.Id == id)
+                                        .SelectMany(s => s.Courses)
+                                        .ToListAsync(cancellationToken);
+
+            return courses;
         }
     }
 }

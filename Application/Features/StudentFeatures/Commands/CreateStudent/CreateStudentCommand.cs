@@ -25,6 +25,7 @@ namespace Application.Features.StudentFeatures.Commands.CreateStudent
         {
             var user = await _auth0Api.CreateUserAsync(command);
 
+            // TODO : encrypt the sensible data like password
             var student = new Student(user.UserId, command.Username, command.Email, command.Password);
             _studentRepository.Add(student);
 

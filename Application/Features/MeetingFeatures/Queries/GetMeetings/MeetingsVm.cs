@@ -1,4 +1,4 @@
-﻿namespace Application.Features.MeetingFeatures.Queries.GetMeetingsByStudentId
+﻿namespace Application.Features.MeetingFeatures.Queries.GetMeetings
 {
     public class MeetingsVm
     {

@@ -1,4 +1,8 @@
-﻿namespace Api.Infrastructure.Services
+﻿using System.Security.Claims;
+
+using Application.Common.Identity;
+
+namespace Api.Infrastructure.Identity
 {
     public class IdentityService : IIdentityService
 
@@ -8,6 +12,11 @@
         public IdentityService(IHttpContextAccessor context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
+        }
+
+        public string GetUserId()
+        {
+            return _context.HttpContext.User.Claims.First(x => x.Type.Equals("sub")).Value;
         }
 
         public string GetUserIdentity()

@@ -6,5 +6,7 @@
         Task<IEnumerable<Section>> GetAllAsync(CancellationToken cancellationToken = default);
 
         Task<Section> GetSectionByIdAsync(int id, CancellationToken cancellationToken = default);
+
+        Task<IEnumerable<Course>> GetCoursesBySectionIdAsync(int id, CancellationToken cancellationToken = default);
     }
 }

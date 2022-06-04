@@ -1,5 +1,7 @@
 ﻿using Api.Configurations;
-using Api.Infrastructure.Services;
+using Api.Infrastructure.Identity;
+
+using Application.Common.Identity;
 
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Versioning;

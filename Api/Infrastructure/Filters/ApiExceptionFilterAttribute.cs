@@ -15,6 +15,9 @@
                 { typeof(ValidationException), HandleValidationException },
                 { typeof(NotFoundException), HandleNotFoundException },
                 { typeof(KnwldgDomainException), HandleKnwldgDomainException },
+                { typeof(ArgumentException), HandleArgumentException },
+                { typeof(ArgumentNullException), HandleArgumentNullException },
+                { typeof(ArgumentOutOfRangeException), HandleArgumentOutOfRangeException },
             };
         }
 
@@ -100,10 +103,10 @@
 
             var problemDetails = new ProblemDetails()
             {
-                Instance = context.HttpContext.Request.Path,
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
                 Title = "The specified resource was not found.",
-                Detail = exception?.Message
+                Detail = exception?.Message,
+                Instance = context.HttpContext.Request.Path,
             };
 
             context.Result = new NotFoundObjectResult(problemDetails);
@@ -117,10 +120,64 @@
 
             var problemDetails = new ValidationProblemDetails()
             {
-                Instance = context.HttpContext.Request.Path,
-                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+                Title = "An error occurred while processing your request.",
                 Status = StatusCodes.Status400BadRequest,
-                Detail = "Please refer to the errors property for additional details."
+                Detail = exception.Message,
+                Instance = context.HttpContext.Request.Path,
+            };
+
+            context.Result = new BadRequestObjectResult(problemDetails);
+
+            context.ExceptionHandled = true;
+        }
+
+        private void HandleArgumentException(ExceptionContext context)
+        {
+            var exception = context.Exception as ArgumentException;
+
+            var problemDetails = new ValidationProblemDetails()
+            {
+                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+                Title = "The argument is incorrect.",
+                Status = StatusCodes.Status400BadRequest,
+                Detail = exception?.Message,
+                Instance = context.HttpContext.Request.Path,
+            };
+
+            context.Result = new BadRequestObjectResult(problemDetails);
+
+            context.ExceptionHandled = true;
+        }
+
+        private void HandleArgumentNullException(ExceptionContext context)
+        {
+            var exception = context.Exception as ArgumentNullException;
+
+            var problemDetails = new ValidationProblemDetails()
+            {
+                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+                Title = "The argument is null.",
+                Status = StatusCodes.Status400BadRequest,
+                Detail = exception.Message,
+                Instance = context.HttpContext.Request.Path,
+            };
+
+            context.Result = new BadRequestObjectResult(problemDetails);
+
+            context.ExceptionHandled = true;
+        }
+
+        private void HandleArgumentOutOfRangeException(ExceptionContext context)
+        {
+            var exception = context.Exception as ArgumentOutOfRangeException;
+
+            var problemDetails = new ProblemDetails()
+            {
+                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+                Title = "The argument exceeds the possible values.",
+                Detail = exception?.Message,
+                Instance = context.HttpContext.Request.Path,
             };
 
             context.Result = new BadRequestObjectResult(problemDetails);

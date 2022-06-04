@@ -5,7 +5,7 @@ global using Application.Common.Behaviours;
 global using Application.Common.Exceptions;
 global using Application.Common.Handler;
 global using Application.Common.Mappings;
-global using Application.Features.MeetingFeatures.Queries.GetMeetingsByStudentId;
+global using Application.Features.MeetingFeatures.Queries.GetMeetings;
 global using Application.Features.SectionFeatures.Queries.GetSectionById;
 
 global using AutoMapper;
@@ -23,6 +23,3 @@ global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
-
-global using Polly;
-global using Polly.Extensions.Http;

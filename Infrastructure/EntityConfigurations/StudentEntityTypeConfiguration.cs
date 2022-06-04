@@ -35,9 +35,6 @@
                 .IsRequired()
                 .HasMaxLength(50);
 
-            studentConfiguration.Property(s => s.Password)
-                .HasMaxLength(50);
-
             studentConfiguration.HasMany(c => c.Courses)
                 .WithMany(s => s.Students);
         }

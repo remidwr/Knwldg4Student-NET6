@@ -12,7 +12,7 @@ namespace Api.Controllers.v1
         /// </summary>
         /// <response code="200">Roles returned</response>
         [HttpGet()]
-        [Authorize]
+        [Authorize(Policy = "view:roles")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RolesVm))]
         public async Task<ActionResult<RolesVm>> GetRoles()
         {

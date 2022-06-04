@@ -1,4 +1,5 @@
-﻿using Api.Infrastructure.Services;
+﻿using Application.Common.Identity;
+using Application.Features.SectionFeatures.Queries.GetCoursesBySectionId;
 
 namespace Api.Controllers.v1
 {
@@ -35,6 +36,20 @@ namespace Api.Controllers.v1
         public async Task<ActionResult<SectionDetailedDto>> GetById([FromRoute] int id)
         {
             return await Mediator.Send(new GetSectionByIdQuery(id));
+        }
+
+        /// <summary>
+        /// Get courses by section id
+        /// </summary>
+        /// <param name="id">Section id</param>
+        /// <response code="200">Courses from section returned</response>
+        /// <response code="404">Section not found</response>
+        [HttpGet("{id}/courses")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CourseDto>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IEnumerable<CourseDto>> GetCoursesBySectionId([FromRoute] int id)
+        {
+            return await Mediator.Send(new GetCoursesBySectionIdQuery(id));
         }
     }
 }
