@@ -11,7 +11,7 @@
             UnavailableDays = new HashSet<UnavailableDay>();
         }
 
-        public Student(string userId, string username, string email, string password)
+        public Student(string userId, string username, string email)
             : this()
         {
             ExternalId = !string.IsNullOrWhiteSpace(userId) ? userId : throw new ArgumentNullException(nameof(userId));
