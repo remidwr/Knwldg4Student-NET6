@@ -1,6 +1,4 @@
-﻿using System.Security.Claims;
-
-using Application.Common.Identity;
+﻿using Application.Common.Identity;
 
 namespace Api.Infrastructure.Identity
 {
@@ -16,17 +14,19 @@ namespace Api.Infrastructure.Identity
 
         public string GetUserId()
         {
-            return _context.HttpContext.User.Claims.First(x => x.Type.Equals("sub")).Value;
+            var sub = _context.HttpContext?.User.Claims.FirstOrDefault(x => x.Type.Equals("sub"));
+            return sub?.Value;
         }
 
         public string GetUserIdentity()
         {
-            return _context.HttpContext.User.Claims.First(x => x.Type.EndsWith("nameidentifier")).Value;
+            var nameIdentifier = _context.HttpContext?.User.Claims.First(x => x.Type.EndsWith("nameidentifier"));
+            return nameIdentifier?.Value;
         }
 
         public string GetUserName()
         {
-            return _context.HttpContext.User.Identity.Name;
+            return _context.HttpContext?.User.Identity.Name;
         }
     }
 }

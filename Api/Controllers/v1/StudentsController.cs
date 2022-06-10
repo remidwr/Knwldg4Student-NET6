@@ -12,6 +12,7 @@ namespace Api.Controllers.v1
         /// Get all students.
         /// </summary>
         [HttpGet]
+        [Authorize(Policy = "view:student")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentsVm))]
         public async Task<ActionResult<StudentsVm>> Get()
         {

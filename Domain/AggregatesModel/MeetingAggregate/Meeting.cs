@@ -16,7 +16,7 @@
 
             if (startAt < DateTime.Now || startAt >= endAt)
             {
-                throw new KnwldgDomainException(nameof(startAt));
+                throw new KnwldgDomainException($"The dates (startAt: {startAt:dd/MM/yyyy HH:mm:ss} - endAt: {endAt:dd/MM/yyyy HH:mm:ss}) for the meeting or not correct");
             }
 
             StartAt = startAt;
