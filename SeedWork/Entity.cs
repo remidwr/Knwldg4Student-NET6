@@ -1,4 +1,4 @@
-﻿namespace Domain.SeedWork
+﻿namespace SeedWork
 {
     public abstract class Entity
     {
@@ -57,7 +57,7 @@
         public static bool operator ==(Entity left, Entity right)
         {
             if (Equals(left, null))
-                return (Equals(right, null)) ? true : false;
+                return Equals(right, null) ? true : false;
             else
                 return left.Equals(right);
         }

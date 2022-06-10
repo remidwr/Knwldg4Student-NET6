@@ -1,4 +1,6 @@
-﻿namespace Domain.SeedWork
+﻿using System.Reflection;
+
+namespace SeedWork
 {
     public class Enumeration : IComparable
     {

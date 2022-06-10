@@ -4,6 +4,12 @@ namespace Application.Features.StudentFeatures.Commands.AssignRolesToStudent
 {
     public class AssignRolesToStudentCommand : IRequest
     {
+        public AssignRolesToStudentCommand(string studentExternalId, IEnumerable<string> roleIds)
+        {
+            StudentExternalId = studentExternalId;
+            RoleIds = roleIds;
+        }
+
         public string StudentExternalId { get; set; }
         public IEnumerable<string> RoleIds { get; set; }
     }

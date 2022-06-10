@@ -1,4 +1,5 @@
 ﻿using Application.Common.ExternalApi.Auth0Api;
+using Application.Features.StudentFeatures.Commands.AssignRolesToStudent;
 
 namespace Application.Features.StudentFeatures.Commands.CreateStudent
 {
@@ -24,6 +25,7 @@ namespace Application.Features.StudentFeatures.Commands.CreateStudent
         public async Task<int> Handle(CreateStudentCommand command, CancellationToken cancellationToken)
         {
             var user = await _auth0Api.CreateUserAsync(command);
+            await AssignRoleToUserAsync(user);
 
             var student = new Student(user.UserId, command.Username, command.Email);
             _studentRepository.Add(student);
@@ -31,6 +33,14 @@ namespace Application.Features.StudentFeatures.Commands.CreateStudent
             await _studentRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
             return student.Id;
+        }
+
+        private async Task AssignRoleToUserAsync(UserCreationResponse user)
+        {
+            var roleIds = new List<string> { "rol_2E6CcGbKlcC2nEJ4" };
+            var assignRolesToStudentCommand = new AssignRolesToStudentCommand(user.UserId, roleIds);
+
+            await _auth0Api.AssignRolesToUserAsync(assignRolesToStudentCommand);
         }
     }
 }

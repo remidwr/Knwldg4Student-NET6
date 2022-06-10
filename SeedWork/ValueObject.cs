@@ -1,4 +1,4 @@
-﻿namespace Domain.SeedWork
+﻿namespace SeedWork
 {
     public abstract class ValueObject
     {
@@ -13,7 +13,7 @@
 
         protected static bool NotEqualOperator(ValueObject left, ValueObject right)
         {
-            return !(EqualOperator(left, right));
+            return !EqualOperator(left, right);
         }
 
         protected abstract IEnumerable<object> GetEqualityComponents();
@@ -27,7 +27,7 @@
 
             var other = (ValueObject)obj;
 
-            return this.GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
+            return GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
         }
 
         public override int GetHashCode()

@@ -1,10 +1,12 @@
 ﻿using Application.Common.ExternalApi.Auth0Api;
 using Application.Common.ExternalApi.NumbersApi;
+using Application.Common.ExternalApi.UdemyApi;
 
 using Flurl;
 
 using Infrastructure.ExternalApi.Auth0Api;
 using Infrastructure.ExternalApi.NumbersApi;
+using Infrastructure.ExternalApi.UdemyApi;
 using Infrastructure.Repositories;
 
 using Polly;
@@ -25,6 +27,7 @@ namespace Infrastructure
             services.AddRepositories();
             services.AddAuth0ApiConfiguration(configuration);
             services.AddNumbersApiConfiguration(configuration);
+            services.AddUdemyApiConfiguration();
 
             return services;
         }
@@ -34,6 +37,22 @@ namespace Infrastructure
             services.AddScoped<IMeetingRepository, MeetingRepository>();
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<ISectionRepository, SectionRepository>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddUdemyApiConfiguration(this IServiceCollection services)
+        {
+            services.AddHttpClient<UdemyClient>("UdemyClient", config =>
+            {
+                config.BaseAddress = new Uri("https://www.udemy.com");
+                config.Timeout = TimeSpan.FromSeconds(30);
+            })
+            .SetHandlerLifetime(TimeSpan.FromMinutes(5))
+            .AddPolicyHandler(GetRetryPolicy())
+            .AddPolicyHandler(GetCircuitBreakerPolicy());
+
+            services.AddTransient<IUdemyApi, UdemyApi>();
 
             return services;
         }
