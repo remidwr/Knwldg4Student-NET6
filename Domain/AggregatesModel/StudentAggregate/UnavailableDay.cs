@@ -15,7 +15,7 @@
             StudentId = studentId;
             DayOff = dayOff;
             Recursive = recursive;
-            Interval = interval >= 0 ? interval : throw new KnwldgDomainException($"Interval must be greater or equal than 0. interval = {interval}");
+            Interval = interval >= 0 ? interval : throw new KnwldgDomainException($"Interval (interval: {interval}) must be greater or equal than 0.");
         }
 
         public DateTime DayOff { get; private set; }

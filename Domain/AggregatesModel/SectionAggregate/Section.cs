@@ -12,7 +12,7 @@
         public Section(string title)
             : this()
         {
-            Title = !string.IsNullOrWhiteSpace(title) ? title : throw new KnwldgDomainException(nameof(title));
+            Title = !string.IsNullOrWhiteSpace(title) ? title : throw new ArgumentNullException(nameof(title));
         }
 
         public Section(string title, ICollection<Course> courses)

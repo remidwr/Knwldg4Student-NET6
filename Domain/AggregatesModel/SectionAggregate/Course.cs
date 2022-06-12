@@ -11,7 +11,7 @@
         public Course(int sectionId, string label)
             : this()
         {
-            Label = !string.IsNullOrWhiteSpace(label) ? label : throw new KnwldgDomainException(nameof(label));
+            Label = !string.IsNullOrWhiteSpace(label) ? label : throw new ArgumentNullException(nameof(label));
             SectionId = sectionId;
         }
 

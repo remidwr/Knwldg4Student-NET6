@@ -14,7 +14,7 @@
 
             if (stars < 0 && stars > 5)
             {
-                throw new KnwldgDomainException(nameof(stars));
+                throw new KnwldgDomainException($"The star(s) (stars: {stars}) must be between 0 and 5.");
             }
 
             Stars = stars;
