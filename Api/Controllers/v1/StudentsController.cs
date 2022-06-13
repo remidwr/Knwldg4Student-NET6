@@ -1,5 +1,6 @@
 ﻿using Application.Features.StudentFeatures.Commands.AddUnavailableDay;
 using Application.Features.StudentFeatures.Commands.AssignRolesToStudent;
+using Application.Features.StudentFeatures.Queries.GetRolesByUserId;
 
 using Microsoft.AspNetCore.Authorization;
 
@@ -32,6 +33,20 @@ namespace Api.Controllers.v1
         public async Task<ActionResult<StudentDetailedDto>> GetById([FromRoute] string id)
         {
             return await Mediator.Send(new GetStudentByIdQuery(id));
+        }
+
+        /// <summary>
+        /// Get student's roles
+        /// </summary>
+        /// <param name="id">Student's id</param>
+        /// <response code="200">Student'roles returned</response>
+        [HttpGet("{id}/roles")]
+        [Authorize(Policy = "view:student")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IList<UsersRoleDto>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IList<UsersRoleDto>>> GetRolesByStudentId([FromRoute] string id)
+        {
+            return await Mediator.Send(new GetRolesByUserIdQuery(id));
         }
 
         /// <summary>

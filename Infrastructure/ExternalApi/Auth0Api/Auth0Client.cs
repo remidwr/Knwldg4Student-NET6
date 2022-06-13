@@ -72,6 +72,20 @@ namespace Infrastructure.ExternalApi.Auth0Api
             return result;
         }
 
+        public async Task<IEnumerable<UsersRole>> GetUsersRolesAsync(string id)
+        {
+            await SetTokenToAuthenticationHeaderAsync();
+            var response = await _httpClient.GetAsync($"/api/v2/users/{id}/roles");
+            var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+
+            var result = string.IsNullOrEmpty(responseContent)
+                            ? default
+                            : JsonConvert.DeserializeObject<IEnumerable<UsersRole>>(responseContent);
+
+            return result;
+        }
+
         public async Task AssignRolesToUserAsync(AssignRolesToStudentCommand command)
         {
             var body = JsonConvert.SerializeObject(new { roles = command.RoleIds });

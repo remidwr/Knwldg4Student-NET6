@@ -40,4 +40,16 @@ namespace Application.Common.ExternalApi.Auth0Api
         [JsonProperty("description")]
         public string Description { get; set; }
     }
+
+    public class UsersRole
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("description")]
+        public string Description { get; set; }
+    }
 }

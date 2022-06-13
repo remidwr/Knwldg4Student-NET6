@@ -28,6 +28,11 @@ namespace Infrastructure.ExternalApi.Auth0Api
             return await _client.GetRolesAsync();
         }
 
+        public async Task<IEnumerable<UsersRole>> GetUsersRoleAsync(string id)
+        {
+            return await _client.GetUsersRolesAsync(id);
+        }
+
         public async Task AssignRolesToUserAsync(AssignRolesToStudentCommand command)
         {
             await _client.AssignRolesToUserAsync(command);
