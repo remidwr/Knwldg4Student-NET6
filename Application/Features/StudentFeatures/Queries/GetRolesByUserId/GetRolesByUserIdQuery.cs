@@ -2,30 +2,30 @@
 
 namespace Application.Features.StudentFeatures.Queries.GetRolesByUserId
 {
-    public record GetRolesByUserIdQuery(string id) : IRequest<List<UsersRoleDto>>;
+    public record GetRoleByUserIdQuery(string Id) : IRequest<UsersRoleDto>;
 
-    public class GetRolesByUserIdHandler : IRequestHandler<GetRolesByUserIdQuery, List<UsersRoleDto>>
+    public class GetRoleByUserIdHandler : IRequestHandler<GetRoleByUserIdQuery, UsersRoleDto>
     {
         private readonly IMapper _mapper;
         private readonly IAuth0Api _auth0Api;
 
-        public GetRolesByUserIdHandler(IMapper mapper,
+        public GetRoleByUserIdHandler(IMapper mapper,
             IAuth0Api auth0Api)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _auth0Api = auth0Api ?? throw new ArgumentNullException(nameof(auth0Api));
         }
 
-        public async Task<List<UsersRoleDto>> Handle(GetRolesByUserIdQuery request, CancellationToken cancellationToken)
+        public async Task<UsersRoleDto> Handle(GetRoleByUserIdQuery request, CancellationToken cancellationToken)
         {
-            var usersRoles = await _auth0Api.GetUsersRoleAsync(request.id);
+            var usersRoles = await _auth0Api.GetUsersRolesAsync(request.Id);
 
             if (!usersRoles.Any())
-                return new List<UsersRoleDto>();
+                return null;
 
-            var usersRoleDtos = _mapper.Map<IEnumerable<UsersRoleDto>>(usersRoles);
+            var usersRoleDto = _mapper.Map<UsersRoleDto>(usersRoles.FirstOrDefault());
 
-            return usersRoleDtos.ToList();
+            return usersRoleDto;
         }
     }
 }

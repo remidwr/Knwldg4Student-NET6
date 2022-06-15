@@ -40,13 +40,13 @@ namespace Api.Controllers.v1
         /// </summary>
         /// <param name="id">Student's id</param>
         /// <response code="200">Student'roles returned</response>
-        [HttpGet("{id}/roles")]
+        [HttpGet("{id}/role")]
         [Authorize(Policy = "view:student")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IList<UsersRoleDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UsersRoleDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IList<UsersRoleDto>>> GetRolesByStudentId([FromRoute] string id)
+        public async Task<ActionResult<UsersRoleDto>> GetRoleByStudentId([FromRoute] string id)
         {
-            return await Mediator.Send(new GetRolesByUserIdQuery(id));
+            return await Mediator.Send(new GetRoleByUserIdQuery(id));
         }
 
         /// <summary>

@@ -11,7 +11,7 @@ namespace Application.Common.ExternalApi.Auth0Api
 
         Task<IEnumerable<RoleResponse>> GetRolesAsync();
 
-        Task<IEnumerable<UsersRole>> GetUsersRoleAsync(string id);
+        Task<IEnumerable<UsersRole>> GetUsersRolesAsync(string id);
 
         Task AssignRolesToUserAsync(AssignRolesToStudentCommand command);
     }
