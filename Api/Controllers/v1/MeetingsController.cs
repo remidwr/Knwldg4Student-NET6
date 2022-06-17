@@ -6,14 +6,13 @@ namespace Api.Controllers.v1
     public class MeetingsController : ApiController
     {
         /// <summary>
-        /// Get all meetings from a student.
+        /// Get all meetings from the connected student.
         /// </summary>
-        /// <param name="id">Student id</param>
         /// <response code="200">Meetings returned</response>
         [HttpGet]
         [Authorize(Policy = "view:meetings")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MeetingsVm))]
-        public async Task<ActionResult<MeetingsVm>> GetMeetingsFromStudentId()
+        public async Task<ActionResult<MeetingsVm>> GetMeetingsFromCurrentStudent()
         {
             return await Mediator.Send(new GetMeetingsQuery());
         }

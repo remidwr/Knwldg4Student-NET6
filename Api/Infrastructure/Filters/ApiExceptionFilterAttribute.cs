@@ -123,7 +123,7 @@
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
                 Title = "An error occurred while processing your request.",
                 Status = StatusCodes.Status400BadRequest,
-                Detail = exception.Message,
+                Detail = exception?.Message,
                 Instance = context.HttpContext.Request.Path,
             };
 
@@ -159,7 +159,7 @@
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
                 Title = "The argument is null.",
                 Status = StatusCodes.Status400BadRequest,
-                Detail = exception.Message,
+                Detail = exception?.Message,
                 Instance = context.HttpContext.Request.Path,
             };
 
