@@ -1,4 +1,5 @@
-﻿using Application.Common.Identity;
+﻿using Application.Common.ExternalApi.Auth0Api;
+using Application.Common.Identity;
 
 namespace Application.Features.StudentFeatures.Queries.GetStudents
 {

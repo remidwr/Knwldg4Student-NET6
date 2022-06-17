@@ -25,6 +25,7 @@
         public string? LastName { get; private set; }
         public string Email { get; private set; }
         public string? Description { get; private set; }
+        public string Role { get; set; }
 
         public ICollection<Course> Courses { get; private set; }
         public ICollection<StudentMeeting> StudentMeetings { get; private set; }

@@ -31,6 +31,10 @@
                 //.IsRequired()
                 .HasMaxLength(50);
 
+            studentConfiguration.Property(s => s.Role)
+                .IsRequired()
+                .HasMaxLength(50);
+
             studentConfiguration.Property(s => s.Username)
                 .IsRequired()
                 .HasMaxLength(50);
