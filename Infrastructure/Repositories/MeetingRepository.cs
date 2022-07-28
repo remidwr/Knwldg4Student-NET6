@@ -43,7 +43,7 @@
 
         public async Task<Meeting> GetByIdAsync(int id)
         {
-            var meeting = await _context.Meetings
+            var meeting = await _context.Meetings // TODO : Replace by Join
                 .Include(m => m.Course)
                 .Include(m => m.MeetingStatus)
                 .Include(m => m.StudentMeetings)

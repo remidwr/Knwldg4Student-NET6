@@ -21,7 +21,9 @@
             if (courses == null)
                 throw new NotFoundException(nameof(Section), request.Id);
 
-            return _mapper.Map<IEnumerable<CourseDto>>(courses);
+            var courseDtos = _mapper.Map<IEnumerable<CourseDto>>(courses);
+
+            return courseDtos;
         }
     }
 }
