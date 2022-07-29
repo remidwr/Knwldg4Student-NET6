@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Knwldg4Student.Tests.Attributes
+namespace Application.Tests.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
     public sealed class AutoMoqDataAttribute : AutoDataAttribute

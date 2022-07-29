@@ -6,4 +6,3 @@ global using AutoFixture.Xunit2;
 global using AutoMapper;
 global using Domain.AggregatesModel.SectionAggregate;
 global using FluentAssertions;
-global using Knwldg4Student.Tests.Attributes;

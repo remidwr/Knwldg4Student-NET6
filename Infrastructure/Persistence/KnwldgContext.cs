@@ -13,13 +13,13 @@ namespace Infrastructure.Persistence
         {
         }
 
-        public DbSet<Course> Courses { get; set; }
-        public DbSet<Meeting> Meetings { get; set; }
-        public DbSet<StudentMeeting> StudentMeetings { get; set; }
-        public DbSet<Rating> Ratings { get; set; }
-        public DbSet<Section> Sections { get; set; }
-        public DbSet<Student> Students { get; set; }
-        public DbSet<UnavailableDay> UnavailableDays { get; set; }
+        public virtual DbSet<Course> Courses { get; set; }
+        public virtual DbSet<Meeting> Meetings { get; set; }
+        public virtual DbSet<StudentMeeting> StudentMeetings { get; set; }
+        public virtual DbSet<Rating> Ratings { get; set; }
+        public virtual DbSet<Section> Sections { get; set; }
+        public virtual DbSet<Student> Students { get; set; }
+        public virtual DbSet<UnavailableDay> UnavailableDays { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
