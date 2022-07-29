@@ -1,4 +1,6 @@
-﻿namespace Application.Features.SectionFeatures.Queries.GetSections
+﻿using Mapster;
+
+namespace Application.Features.SectionFeatures.Queries.GetSections
 {
     public class SectionDto : IMapFrom<Section>
     {

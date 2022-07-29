@@ -23,7 +23,7 @@ namespace Infrastructure.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAllSectionsAsync_ReturnsAllSections()
+        public async void GetAllSectionsAsync_ReturnsAllSectionsOrderedByTitle()
         {
             // Arrange
             var fixture = new Fixture();
